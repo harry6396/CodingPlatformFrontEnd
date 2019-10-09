@@ -18,7 +18,7 @@ handleTeamChange(event){
 
 checkTeamAvailable(){
     
-    fetch("http://localhost:8080/codingPlatform/checkTeam?key=SHARED_KEY",{
+    fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/checkTeam?key=SHARED_KEY",{
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
