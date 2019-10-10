@@ -149,12 +149,6 @@ render() {
                     <input className="emailIDInput" type="text" placeholder="Enter Email ID" onChange={this.handleEmailIDChange1}/>
                 </div>
             </div>
-            {this.state.toShowBlurBackGround?<div className="loaderDiv"><Loader
-              type="Bars"
-              color="#00BFFF"
-              height={100}
-              width={100}
-            /></div>:<div></div>}
             <div className="candidateForm1">
                 <div className="candidateFormHeader">Candidate 2</div>
                 <div className="nameDiv">
