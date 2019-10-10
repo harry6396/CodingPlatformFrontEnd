@@ -66,8 +66,8 @@ registerTeam(){
       .then(res => res.json())
       .then(
         (result) => {
-          if(result.status === "Fail"){
-            this.setState({isTeamNameAvailable:true});
+          if(result.status === "Success"){
+            console.log("Registered Successfully");
           }
         }
       )
@@ -85,8 +85,8 @@ checkTeamAvailable(){
       .then(res => res.json())
       .then(
         (result) => {
-          if(result.status === "Success"){
-            console.log("Registered Successfully");
+          if(result.status === "Fail"){
+            this.setState({isTeamNameAvailable:true});
           }
         }
       )
