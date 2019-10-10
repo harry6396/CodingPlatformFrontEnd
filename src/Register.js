@@ -1,5 +1,6 @@
 import React from 'react';
 import './Register.css';
+import Loader from 'react-loader-spinner'
 
 class Register extends React.Component {
   constructor(props) {
@@ -12,7 +13,11 @@ class Register extends React.Component {
       candidatePhoneNumber1:'',
       candidatePhoneNumber2:'',
       candidateEmailID1:'',
-      candidateEmailID2:''
+      candidateEmailID2:'',
+      toShowLoader:false,
+      toShowBlurBackGround: false,
+      teamAvailableMessage: '',
+      toShowTeamMessage: false
     };
     this.checkTeamAvailable = this.checkTeamAvailable.bind(this);
     this.handleTeamChange = this.handleTeamChange.bind(this);
@@ -22,6 +27,8 @@ class Register extends React.Component {
     this.handlePhoneNumberChange2 = this.handlePhoneNumberChange2.bind(this);
     this.handleEmailIDChange1 = this.handleEmailIDChange1.bind(this);
     this.handleEmailIDChange2 = this.handleEmailIDChange2.bind(this);
+    this.registerTeam = this.registerTeam.bind(this);
+    
 }
 
 handleTeamChange(event){
@@ -53,7 +60,8 @@ handleEmailIDChange2(event){
 }
 
 registerTeam(){
-    fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/register?key=SHARED_KEY",{
+  this.setState({toShowLoader:true,toShowBlurBackGround:true});
+    fetch("http://localhost:8080/codingPlatform/register?key=SHARED_KEY",{
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -67,14 +75,18 @@ registerTeam(){
       .then(
         (result) => {
           if(result.status === "Success"){
-            console.log("Registered Successfully");
+            this.setState({toShowLoader:false,toShowBlurBackGround:false});
+            this.props.history.push('');
+            this.props.history.push('/checkout');
           }
         }
       )
 }
 
 checkTeamAvailable(){
-    fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/checkTeam?key=SHARED_KEY",{
+    if(this.state.teamName.length>0){
+    this.setState({toShowLoader:true});
+    fetch("http://localhost:8080/codingPlatform/checkTeam?key=SHARED_KEY",{
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -85,12 +97,18 @@ checkTeamAvailable(){
       .then(res => res.json())
       .then(
         (result) => {
-          if(result.status === "Fail"){
-            this.setState({isTeamNameAvailable:true});
+          if(result.status === "Success"){
+            this.setState({toShowTeamMessage:true,isTeamNameAvailable:true,toShowLoader:false, teamAvailableMessage:'Team Name Available'});
+            document.getElementById('teamID').readOnly = true;
+          }else if(result.status === "Fail"){
+            this.setState({toShowTeamMessage:true,toShowLoader:false, teamAvailableMessage:'Team Name Not Available'});
           }
         }
       )
+  }else{
+    alert("Team name cannot be empty");
   }
+}
 
 render() {
   return (
@@ -102,9 +120,18 @@ render() {
         </div>
         <div className="registerForm">
             <div className="teamName">Enter Team Name</div>
-            <div className="teamNameDiv"><input placeholder="Enter team name" type="text" className="teamNameInput" onChange={this.handleTeamChange}/></div>
-            <div className="submitDiv"><div className="submitButton" onClick={this.checkTeamAvailable}>Check Validity</div></div>
+            <div className="teamNameDiv">
+              <input id="teamID" placeholder="Enter team name" type="text" className="teamNameInput" onChange={this.handleTeamChange}/>
+              {this.state.toShowTeamMessage?<div className="teamAvailableMessage">{this.state.teamAvailableMessage}</div>
+              :<div></div>}</div>
+            {this.state.isTeamNameAvailable === false?<div className="submitDiv"><div className="submitButton" onClick={this.checkTeamAvailable}>Check Validity</div></div>:<div></div>}
         </div>
+        {this.state.toShowLoader?<div className="loaderDiv"><Loader
+         type="Bars"
+         color="#00BFFF"
+         height={100}
+         width={100}
+         /></div>:<div></div>}
         {this.state.isTeamNameAvailable === true?
         <div className="registerForm">
             <div className="candidateForm1">
@@ -122,6 +149,12 @@ render() {
                     <input className="emailIDInput" type="text" placeholder="Enter Email ID" onChange={this.handleEmailIDChange1}/>
                 </div>
             </div>
+            {this.state.toShowBlurBackGround?<div className="loaderDiv"><Loader
+              type="Bars"
+              color="#00BFFF"
+              height={100}
+              width={100}
+            /></div>:<div></div>}
             <div className="candidateForm1">
                 <div className="candidateFormHeader">Candidate 2</div>
                 <div className="nameDiv">
@@ -137,7 +170,7 @@ render() {
                     <input className="emailIDInput" type="text" placeholder="Enter Email ID" onChange={this.handleEmailIDChange2}/>
                 </div>
             </div>
-            <div className="registerButton" onClick={ this.registerTeam.bind(this) }>Submit</div>
+            <div className="registerButton" onClick={ this.registerTeam }>Submit</div>
         </div>:<div></div>}
     </div>
   );
