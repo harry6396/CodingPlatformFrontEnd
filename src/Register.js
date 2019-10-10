@@ -69,7 +69,7 @@ registerTeam(){
       method: "POST",
       body: JSON.stringify(
       [{"EmailID":this.state.candidateEmailID1,"PhoneNumber":this.state.candidatePhoneNumber1,"Name":this.state.candidateName1,"TeamName":this.state.teamName,"status":null},
-      {"EmailID":this.state.candidateEmailID2,"PhoneNumber":this.state.candidatePhoneNumber1,"Name":this.state.candidateName1,"TeamName":this.state.teamName,"status":null}])
+      {"EmailID":this.state.candidateEmailID2,"PhoneNumber":this.state.candidatePhoneNumber2,"Name":this.state.candidateName2,"TeamName":this.state.teamName,"status":null}])
       })
       .then(res => res.json())
       .then(
