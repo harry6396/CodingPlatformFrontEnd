@@ -12,7 +12,7 @@ render() {
   return (
     <div className="">
         <div className="imageHolder"><img src="./green-tick.png"/></div>
-        <div className="imageMessage">Miraculous! Registration Successfull</div>
+        <div className="imageMessage">Registration Successful</div>
     </div>
   );
 }

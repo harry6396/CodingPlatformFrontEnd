@@ -170,3 +170,46 @@
     font-size: 30px;
     color: #3578E5;
 }
+
+.challengeHeader{
+    background-color: #3578E5;
+    height: 60px;
+}
+
+.challengeHeaderMessage{
+    padding-left: 45px;
+    color: white;
+    font-size: 32px;
+    font-weight: 700;
+    font-family: none;
+    padding-top: 10px;
+}
+
+.endTestButton{
+    width: 90px;
+    background: red;
+    color: white;
+    height: 26px;
+    font-size: 20px;
+    padding-left: 14px;
+    padding-top: 5px;
+    margin-left: 80%;
+    margin-top: -32px;
+    border-radius: 6px;
+    font-family: none;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.challengeTimer{
+    margin-left: 47%;
+    border-radius: 8px;
+    width: 120px;
+    margin-top: -32px;
+    padding-left: 12px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    font-size: 27px;
+    color: white;
+    background-color: seagreen;
+}
