@@ -213,3 +213,51 @@
     color: white;
     background-color: seagreen;
 }
+
+.puzzleDescription{
+
+}
+
+.puzzleInput{
+    margin-bottom: 20px;
+    margin-left: 38%;
+    font-size: 24px;
+    border: none;
+    border-radius: 26px;
+    width: 250px;
+    padding-left: 14px;
+    height: 40px;
+    background-color: aliceblue;
+}
+
+.puzzleAnswerButton{
+    font-family: none;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 20px;
+    padding-left: 14px;
+    padding-top: 5px;
+    height: 36px;
+    width: 90px;
+    background-color: #3578E5;
+    color: white;
+    margin-left: 45%;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.buttonHolder{
+
+}
+
+.codeInput{
+    margin-bottom: 20px;
+    margin-left: 10%;
+    font-size: 24px;
+    border: none;
+    border-radius: 10px;
+    width: 80%;
+    padding-left: 14px;
+    height: 20em;
+    background-color: aliceblue;
+}

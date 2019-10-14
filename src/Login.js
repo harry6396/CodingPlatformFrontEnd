@@ -39,7 +39,8 @@ checkTeam(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                this.saveChallengeData(result.question);
+                console.log(result);
+                this.saveChallengeData(result.teamName);
               }else if(result.status === "Fail"){
                   alert("Something went wrong");
               }
@@ -53,12 +54,7 @@ checkTeam(){
 }
 
 saveChallengeData(challengeData){
-    cookie.save('challengeQuestion', challengeData, { path: '/' });
-    cookie.save('challengeQuestionNumber', '1', {path: '/'} );
-    cookie.save('currentQuestionTypeStatus', 'P', {path: '/'} );
-    console.log(cookie.load('challengeQuestion'));
-    console.log(cookie.load('challengeQuestionNumber'));
-    console.log(cookie.load('currentQuestionTypeStatus'));
+    cookie.save('teamName', challengeData, { path: '/' });
     this.setState({toShowLoader:false});
     this.props.history.push('/challenge');
 }

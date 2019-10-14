@@ -1,6 +1,7 @@
 import React from 'react';
 import './Register.css';
 import Loader from 'react-loader-spinner';
+import cookie from 'react-cookies';
 
 var hackerEarth=require('hackerearth-node'); //require the Library
 //Now set your application 
@@ -15,16 +16,41 @@ config.source='print("Hello")';  //your source code for which you want to use ha
 config.input="";  //input against which you have to test your source code
 config.language="Py"; //optional choose any one of them or none
 
-
 class Code extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      teamName:'',
-      passCode:''
+      codeStatement:'',
+      codeDescription:'',
+      toShowLoader:false,
+      questionType:''
     };
 }
-
+componentDidMount(){
+  var teamName=cookie.load('teamName');
+  if(teamName!==null&&teamName!==undefined&&teamName!==""){
+  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"teamName":teamName})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.status === "Success"){
+                this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription,questionType:result.questionType});
+              }else if(result.status === "Fail"){
+                  alert("Something went wrong");
+              }
+            }
+    )
+  }else{
+    this.props.history.push('/login');
+  }
+}
 compileCode(){
     hackerEarth.compile(config)
                         .then(result => {
@@ -38,7 +64,13 @@ compileCode(){
 render() {
   return (
     <div className="header">
-        Coding Question
+        <div className="codingQuestion">{this.state.codeStatement}</div>
+        <div className="codeDescription">{this.state.codeDescription}</div>
+        <div className=""><textarea className="codeInput" type="text" placeholder="Insert your code here"/></div>
+        <div className="buttonHolder">
+        <div className="puzzleAnswerButton">Compile</div>
+        <div className="puzzleAnswerButton">Submit</div>
+        </div>
     </div>
   );
 }

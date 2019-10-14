@@ -14,26 +14,13 @@ class Question extends React.Component {
     };
     this.onEndTest = this.onEndTest.bind(this);
     this.toggleQuestionType = this.toggleQuestionType.bind(this);
-    this.changeCodingQuestion = this.changeCodingQuestion.bind(this);
-}
-
-changeCodingQuestion(){
-    var iProblemCounter = cookie.load('challengeQuestionNumber');
-    cookie.save('challengeQuestionNumber', iProblemCounter++, {path: '/'} );
-    this.setState({isPuzzleCode: true});
-}
-
-componentDidMount(){
-
 }
 
 onEndTest(){
 
 }
-
-toggleQuestionType(){
-    cookie.save('currentQuestionTypeStatus', 'C', {path: '/'} );
-    this.setState({isPuzzleCode: false});
+toggleQuestionType(value){
+    this.setState({isPuzzleCode: value});
 }
 
 render() {
@@ -48,16 +35,12 @@ render() {
             {
             time: 0,
             callback: () => console.log('Checkpoint A'),
-            },
-            {
-            time: 600 * 60,
-            callback: () => console.log('Checkpoint B'),
             }
             ]}>
             {() => (
             <React.Fragment>
-            <Timer.Hours /> :
-            <Timer.Minutes /> :
+            <Timer.Hours /> : 
+            <Timer.Minutes /> : 
             <Timer.Seconds />
             </React.Fragment>
             )}
@@ -66,10 +49,8 @@ render() {
         </div>
         <div className="challengeBody">
             {this.state.isPuzzleCode===true?
-            <Puzzle
-            
-            />:
-            <Code/>}
+            <Puzzle toggleQuestion={this.toggleQuestionType}/>:
+            <Code toggleQuestion={this.toggleQuestionType}/>}
         </div>
     </div>
   );
