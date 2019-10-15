@@ -23,6 +23,12 @@ handleTeam(event){
 handlePassCode(event){
     this.setState({passCode:event.target.value});
 }
+componentDidMount(){
+  var temaName = cookie.load('teamName');
+  if(temaName!==null && temaName!==undefined && temaName !== ""){
+    this.props.history.push('/challenge');
+  }
+}
 
 checkTeam(){
     if(this.state.teamName.length>0&&this.state.passCode.length>0){
@@ -42,7 +48,7 @@ checkTeam(){
                 console.log(result);
                 this.saveChallengeData(result.teamName);
               }else if(result.status === "Fail"){
-                  alert("Something went wrong");
+                  alert("Wrong team name or already completed test");
               }
             }
           )

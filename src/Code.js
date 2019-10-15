@@ -22,6 +22,9 @@ class Code extends React.Component {
     this.state = {
       codeStatement:'',
       codeDescription:'',
+      codeInputFormat:'Input Format',
+      codeOutputFormat:'Input Format',
+      codeTestCases:'',
       toShowLoader:false,
       questionType:'',
       codeOutput:'',
@@ -69,40 +72,41 @@ compileCode(){
     //                     .catch(err => {
     //                         console.log(err);
     //                     });
-fetch("https://api.hackerearth.com/v3/code/compile/",{
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          method: "POST",
-          body: JSON.stringify({"client_secret": "f3c1455800df92db6737d087ac0c93424bbe1e40",
-            "async": 1,
-            "source": "print(\"Hello\")",
-            "lang": "PYTHON",
-            "input": "",
-            "time_limit": 1,
-            "memory_limit": 323244})
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-              if(result.status === "Success"){
-                  this.props.toggleQuestion();
-              }else if(result.status === "Fail"){
-                  alert("Something went wrong");
-              }
-            }
-    )
+// fetch("https://api.hackerearth.com/v3/code/compile/",{
+//           headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json',
+//             'Access-Control-Allow-Origin': '*'
+//           },
+//           method: "POST",
+//           body: JSON.stringify({"client_secret": "f3c1455800df92db6737d087ac0c93424bbe1e40",
+//             "async": 1,
+//             "source": "print(\"Hello\")",
+//             "lang": "PYTHON",
+//             "input": "",
+//             "time_limit": 1,
+//             "memory_limit": 323244})
+//         })
+//           .then(res => res.json())
+//           .then(
+//             (result) => {
+//               if(result.status === "Success"){
+//                   this.props.toggleQuestion();
+//               }else if(result.status === "Fail"){
+//                   alert("Something went wrong");
+//               }
+//             }
+//     )
 }
 submitCode(){
-  hackerEarth.run(config)
-                    .then(result => {
-                      this.submitScore();
-                    })
-                    .catch(err => {
-                      alert(err);
-                    });
+  // hackerEarth.run(config)
+  //                   .then(result => {
+  //                     this.submitScore();
+  //                   })
+  //                   .catch(err => {
+  //                     alert(err);
+  //                   });
+  this.state.submitScore();
 }
 submitScore(){
   var teamName=cookie.load('teamName');
@@ -135,6 +139,8 @@ render() {
     <div className="header">
         <div className="codingQuestion">{this.state.codeStatement}</div>
         <div className="codeDescription">{this.state.codeDescription}</div>
+        <div className="codeInputType">{this.state.codeInputFormat}</div>
+        <div className="codeOutputType">{this.state.codeOutputFormat}</div>
         <div className=""><textarea className="codeInput" type="text" placeholder="Insert your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
         <div className="puzzleAnswerButton" onClick={this.compileCode}>Compile</div>

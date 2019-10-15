@@ -47,25 +47,24 @@ checkProgress(){
 }
 
 onEndTest(){
-  alert("End Test Clicked");
-  // fetch("http://localhost:8080/codingPlatform/finalSubmission?key=SHARED_KEY",{
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         method: "POST",
-  //         body: JSON.stringify({"teamName":teamName})
-  //       })
-  //         .then(res => res.json())
-  //         .then(
-  //           (result) => {
-  //             if(result.status === "Success"){
-  //               this.setState({questionType:result.questionType});
-  //             }else if(result.status === "Fail"){
-  //                 alert("Something went wrong");
-  //             }
-  //           }
-  //   )
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"teamName":teamName,"completionTime":"0"})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.status === "Success"){
+                this.setState({questionType:result.questionType});
+              }else if(result.status === "Fail"){
+                  alert("Something went wrong");
+              }
+            }
+    )
 }
 
 render() {
