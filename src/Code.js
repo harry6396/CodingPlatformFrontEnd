@@ -22,23 +22,27 @@ class Code extends React.Component {
     this.state = {
       codeStatement:'',
       codeDescription:'',
-      codeInputFormat:'Input Format',
-      codeOutputFormat:'Output Format',
+      codeInputFormat:[],
+      codeOutputFormat:[],
       codeTestCases:'',
       toShowLoader:false,
       questionType:'',
       codeOutput:'',
-      codeInput:''
+      codeInput:'',
+      example:[]
     };
     this.compileCode = this.compileCode.bind(this);
     this.submitCode = this.submitCode.bind(this);
     this.submitScore = this.submitScore.bind(this);
     this.updateCode = this.updateCode.bind(this);
+    this.splitCodeInput = this.splitCodeInput.bind(this);
+    this.splitCodeOutput = this.splitCodeOutput.bind(this);
+    this.splitCodeExample = this.splitCodeExample.bind(this);
 }
 componentDidMount(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -49,9 +53,15 @@ componentDidMount(){
           .then(res => res.json())
           .then(
             (result) => {
-              if(result.status === "Success"){
+              if(result.status === "Success"&&result.problemStatement!=="7"){
+                this.splitCodeInput(result.questionInputFormat);
+                this.splitCodeOutput(result.questionOutputFormat);
+                this.splitCodeExample(result.example);
                 this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription});
-              }else if(result.status === "Fail"){
+              }else if(result.problemStatement==="7"){
+                alert("Test Completed");
+              }
+              else if(result.status === "Fail"){
                   alert("Something went wrong");
               }
             }
@@ -62,6 +72,21 @@ componentDidMount(){
 }
 updateCode(event){
   this.setState({codeInput:event.target.value});
+}
+splitCodeInput(questionInputFormat){
+  var delimiter="$_$";
+  var output = questionInputFormat.split(delimiter);
+  this.setState({codeInputFormat:output});
+}
+splitCodeOutput(questionInputFormat){
+  var delimiter="$_$";
+  var output = questionInputFormat.split(delimiter);
+  this.setState({codeOutputFormat:output});
+}
+splitCodeExample(questionInputFormat){
+  var delimiter="$_$";
+  var output = questionInputFormat.split(delimiter);
+  this.setState({example:output});
 }
 compileCode(){
     // hackerEarth.compile(config)
@@ -106,12 +131,12 @@ submitCode(){
   //                   .catch(err => {
   //                     alert(err);
   //                   });
-  this.state.submitScore();
+  this.submitScore();
 }
 submitScore(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -139,8 +164,15 @@ render() {
     <div className="header">
         <div className="codingQuestion">{this.state.codeStatement}</div>
         <div className="codeDescription">{this.state.codeDescription}</div>
-        <div className="codeInputType">{this.state.codeInputFormat}</div>
-        <div className="codeOutputType">{this.state.codeOutputFormat}</div>
+        <div className="codeInputType">Constraints{this.state.codeInputFormat.map((i,key) => {
+            return <div key={key}>{i}</div>;
+        })}</div>
+        <div className="codeOutputType">Input{this.state.example.map((i,key) => {
+            return <div key={key}>{i}</div>;
+        })}</div>
+        <div className="codeOutputType">Output{this.state.codeOutputFormat.map((i,key) => {
+            return <div key={key}>{i}</div>;
+        })}</div>
         <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
         <div className="puzzleAnswerButton" onClick={this.compileCode}>Compile</div>

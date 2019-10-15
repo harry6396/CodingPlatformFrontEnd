@@ -4,6 +4,7 @@ import cookie from 'react-cookies';
 import Timer from 'react-compound-timer';
 import Puzzle from './Puzzle.js';
 import Code from './Code.js';
+import CompleteTestPage from './CompleteTestPage.js';
 
 class Question extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class Question extends React.Component {
     this.state = {
         code:'',
         isPuzzleCode:true,
-        questionType:''
+        questionType:'',
+        questionNumber:''
     };
     this.onEndTest = this.onEndTest.bind(this);
     this.checkProgress = this.checkProgress.bind(this);
@@ -28,7 +30,7 @@ stopTimer(){
 checkProgress(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchProgress?key=SHARED_KEY",{
+  fetch("http://localhost:8080/codingPlatform/fetchProgress?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -40,7 +42,13 @@ checkProgress(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                this.setState({questionType:result.questionType});
+                if(result.questionNumber === "4"){
+                  this.props.history.length = -1;
+                  this.props.history.push('/CompleteTestPage');
+                }
+                else{
+                  this.setState({questionType:result.questionType,questionNumber:result.questionNumber});
+                }
               }else if(result.status === "Fail"){
                   alert("Something went wrong");
               }
@@ -51,28 +59,26 @@ checkProgress(){
   }
 }
 
-onEndTest(stop, getTime){
-  stop();
-  console.log(getTime());
-  // var teamName=cookie.load('teamName');
-  // fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         method: "POST",
-  //         body: JSON.stringify({"teamName":teamName,"completionTime":"0"})
-  //       })
-  //         .then(res => res.json())
-  //         .then(
-  //           (result) => {
-  //             if(result.status === "Success"){
-  //               this.setState({questionType:result.questionType});
-  //             }else if(result.status === "Fail"){
-  //                 alert("Something went wrong");
-  //             }
-  //           }
-  //   )
+onEndTest(){
+  var teamName=cookie.load('teamName');
+  fetch("http://localhost:8080/codingPlatform/finalSubmission?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"teamName":teamName,"completionTime":"0"})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.status === "Success"){
+                this.setState({questionType:result.questionType});
+              }else if(result.status === "Fail"){
+                  alert("Something went wrong");
+              }
+            }
+    )
 }
 
 render() {
@@ -80,30 +86,12 @@ render() {
     <div className="">
         <div className="challengeHeader">
             <div className="challengeHeaderMessage">Break the ENGIMA</div>
-            <div className="challengeTimer"><Timer
-            initialTime={60*60*60}
-            direction="backward"
-            checkpoints={[
-            {
-            time: 0,
-            callback: () => console.log(0),
-            }
-            ]}>
-            {({stop, getTime }) => (
-            <React.Fragment>
-            <Timer.Hours /> : 
-            <Timer.Minutes /> : 
-            <Timer.Seconds />
-            <div className="endTestButton" onClick={this.onEndTest(stop,{getTime})}>End Test</div>
-            </React.Fragment>
-            )}
-             </Timer></div>
-            
+            <div className="challengeTimer">HH:MM:SS:</div>
         </div>
         <div className="challengeBody">
             {this.state.questionType==="P"?
-            <Puzzle toggleQuestion={this.checkProgress}/>:
-            <Code toggleQuestion={this.checkProgress}/>}
+            <Puzzle toggleQuestion={this.checkProgress}/>:this.state.questionType==="C"?
+            <Code toggleQuestion={this.checkProgress}/>:<div></div>}
         </div>
     </div>
   );
