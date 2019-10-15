@@ -88,12 +88,11 @@ render() {
             callback: () => this.onEndTest(getTime()),
             }
             ]}>
-            {({stop, getTime }) => (
+            {({stop}) => (
             <React.Fragment>
             <Timer.Hours /> : 
             <Timer.Minutes /> : 
             <Timer.Seconds />
-            <div>{getTime()}</div>
             <div className="endTestButton" onClick={this.onEndTest(stop)}>End Test</div>
             </React.Fragment>
             )}
