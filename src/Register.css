@@ -233,26 +233,28 @@
 .puzzleAnswerButton{
     font-family: none;
     font-weight: 700;
-    cursor: pointer;
     font-size: 20px;
-    padding-left: 14px;
+    padding-left: 10px;
+    padding-bottom: 10px;
     padding-top: 5px;
+    padding-right: 10px;
     height: 36px;
-    width: 90px;
     background-color: #3578E5;
     color: white;
-    margin-left: 45%;
     border-radius: 6px;
     cursor: pointer;
+    display: inline;
+    margin-left: 10px;
 }
 
 .buttonHolder{
-
+    display: inline;
+    margin-left: 40%;
 }
 
 .codeInput{
     margin-bottom: 20px;
-    margin-left: 10%;
+    margin-left: 4%;
     font-size: 24px;
     border: none;
     border-radius: 10px;
@@ -260,4 +262,17 @@
     padding-left: 14px;
     height: 20em;
     background-color: aliceblue;
+}
+
+.codingQuestion{
+    margin-top: 4%;
+    margin-left: 4%;
+    font-size: 26px;
+}
+
+.codeDescription{
+    margin-top: 2%;
+    margin-left: 4%;
+    margin-bottom: 4%;
+    font-size: 20px;
 }
