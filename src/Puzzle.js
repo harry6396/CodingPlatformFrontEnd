@@ -61,7 +61,7 @@ onPuzzleAnswerButtonClick(){
     .then(
       (result) => {
         if(result.status === "Success"){
-          this.props.toggleQuestion(false);
+          this.props.toggleQuestion();
         }else if(result.status === "Fail"){
           alert("Answer is wrong");
         }
