@@ -23,8 +23,12 @@ class Code extends React.Component {
       codeStatement:'',
       codeDescription:'',
       toShowLoader:false,
-      questionType:''
+      questionType:'',
+      codeOutput:''
     };
+    this.compileCode = this.compileCode.bind(this);
+    this.submitCode = this.submitCode.bind(this);
+    this.submitScore = this.submitScore.bind(this);
 }
 componentDidMount(){
   var teamName=cookie.load('teamName');
@@ -41,7 +45,7 @@ componentDidMount(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription,questionType:result.questionType});
+                this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription});
               }else if(result.status === "Fail"){
                   alert("Something went wrong");
               }
@@ -55,10 +59,45 @@ compileCode(){
     hackerEarth.compile(config)
                         .then(result => {
                           console.log(result);
+                          submitCode();
                         })
                         .catch(err => {
                             console.log(err);
                         });
+}
+submitCode(){
+  hackerEarth.run(config)
+                    .then(result => {
+                      submitScore();
+                    })
+                    .catch(err => {
+                      alert(err);
+                    });
+}
+submitScore(){
+  var teamName=cookie.load('teamName');
+  if(teamName!==null&&teamName!==undefined&&teamName!==""){
+  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"teamName":teamName,"answer":"ac"})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.status === "Success"){
+                  this.props.toggleQuestion();
+              }else if(result.status === "Fail"){
+                  alert("Something went wrong");
+              }
+            }
+    )
+  }else{
+    this.props.history.push('/login');
+  }
 }
 
 render() {
@@ -68,8 +107,8 @@ render() {
         <div className="codeDescription">{this.state.codeDescription}</div>
         <div className=""><textarea className="codeInput" type="text" placeholder="Insert your code here"/></div>
         <div className="buttonHolder">
-        <div className="puzzleAnswerButton">Compile</div>
-        <div className="puzzleAnswerButton">Submit</div>
+        <div className="puzzleAnswerButton" onClick={this.compileCode}>Compile</div>
+        <div className="puzzleAnswerButton" onClick={this.submitCode}>Submit</div>
         </div>
     </div>
   );
