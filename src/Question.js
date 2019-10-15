@@ -81,7 +81,7 @@ render() {
         <div className="challengeHeader">
             <div className="challengeHeaderMessage">Break the ENGIMA</div>
             <div className="challengeTimer"><Timer
-            initialTime={60000}
+            initialTime={60*60*60*60}
             direction="backward"
             checkpoints={[
             {
