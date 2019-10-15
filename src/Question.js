@@ -15,9 +15,7 @@ class Question extends React.Component {
     };
     this.onEndTest = this.onEndTest.bind(this);
     this.checkProgress = this.checkProgress.bind(this);
-    this.toggleQuestionType = this.toggleQuestionType.bind(this);
 }
-
 componentDidMount(){
   this.checkProgress();
 }

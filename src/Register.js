@@ -97,7 +97,7 @@ handleEmailIDChange4(event){
 
 registerTeam(){
   this.setState({toShowLoader:true,toShowBlurBackGround:true});
-    fetch("http://localhost:8080/codingPlatform/register?key=SHARED_KEY",{
+    fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/register?key=SHARED_KEY",{
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -125,7 +125,7 @@ registerTeam(){
 checkTeamAvailable(){
     if(this.state.teamName.length>0){
     this.setState({toShowLoader:true});
-    fetch("http://localhost:8080/codingPlatform/checkTeam?key=SHARED_KEY",{
+    fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/checkTeam?key=SHARED_KEY",{
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
