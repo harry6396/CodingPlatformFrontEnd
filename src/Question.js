@@ -86,7 +86,7 @@ render() {
             checkpoints={[
             {
             time: 0,
-            callback: () => this.onEndTest(),
+            callback: () => console.log(0),
             }
             ]}>
             {({stop, getTime }) => (
