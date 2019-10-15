@@ -141,7 +141,7 @@ render() {
         <div className="codeDescription">{this.state.codeDescription}</div>
         <div className="codeInputType">{this.state.codeInputFormat}</div>
         <div className="codeOutputType">{this.state.codeOutputFormat}</div>
-        <div className=""><textarea className="codeInput" type="text" placeholder="Insert your code here" onChange={this.updateCode}/></div>
+        <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
         <div className="puzzleAnswerButton" onClick={this.compileCode}>Compile</div>
         <div className="puzzleAnswerButton" onClick={this.submitCode}>Submit</div>

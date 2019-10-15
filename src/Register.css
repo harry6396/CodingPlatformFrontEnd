@@ -217,8 +217,17 @@
     background-color: seagreen;
 }
 
-.puzzleDescription{
+.puzzleStatement{
+    margin-top: 4%;
+    margin-left: 4%;
+    font-size: 26px;
+}
 
+.puzzleDescription{
+    margin-top: 2%;
+    margin-left: 4%;
+    margin-bottom: 4%;
+    font-size: 20px;
 }
 
 .puzzleInput{
@@ -274,6 +283,20 @@
 }
 
 .codeDescription{
+    margin-top: 2%;
+    margin-left: 4%;
+    margin-bottom: 4%;
+    font-size: 20px;
+}
+
+.codeInputType{
+    margin-top: 2%;
+    margin-left: 4%;
+    margin-bottom: 4%;
+    font-size: 20px;
+}
+
+.codeOutputType{
     margin-top: 2%;
     margin-left: 4%;
     margin-bottom: 4%;

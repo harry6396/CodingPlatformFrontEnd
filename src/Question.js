@@ -15,9 +15,14 @@ class Question extends React.Component {
     };
     this.onEndTest = this.onEndTest.bind(this);
     this.checkProgress = this.checkProgress.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
 }
 componentDidMount(){
   this.checkProgress();
+}
+
+stopTimer(){
+
 }
 
 checkProgress(){
@@ -74,12 +79,12 @@ render() {
         <div className="challengeHeader">
             <div className="challengeHeaderMessage">Break the ENGIMA</div>
             <div className="challengeTimer"><Timer
-            initialTime={600 * 60 * 48 + 5000}
+            initialTime={60000}
             direction="backward"
             checkpoints={[
             {
             time: 0,
-            callback: () => this.onEndTest(),
+            callback: () => this.onEndTest(getTime()),
             }
             ]}>
             {() => (

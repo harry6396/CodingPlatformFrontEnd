@@ -86,7 +86,7 @@ render() {
         </div>
         {this.state.toShowLoader===true?<div className="loaderDiv"><Loader
          type="Circles"
-         color="#00BFFF"
+         color="#3578E5"
          height={50}
          width={50}
          /></div>:<div></div>}

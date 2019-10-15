@@ -73,6 +73,7 @@ onPuzzleAnswerButtonClick(){
 render() {
   return (
     <div className="header">
+        <div className="puzzleStatement">{this.state.puzzleStatement}</div>
         <div className="puzzleDescription">{this.state.puzzleDescription}</div>
         <div className=""><input className="puzzleInput" type="text" placeholder="Answer" onChange={this.inputPuzzle}/></div>
         <div className="puzzleAnswerButton" onClick={this.onPuzzleAnswerButtonClick}>Submit</div>
