@@ -72,7 +72,8 @@ compileCode(){
 fetch("https://api.hackerearth.com/v3/code/compile/",{
           headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
           },
           method: "POST",
           body: JSON.stringify({"client_secret": "f3c1455800df92db6737d087ac0c93424bbe1e40",
