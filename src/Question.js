@@ -10,17 +10,64 @@ class Question extends React.Component {
     super(props);
     this.state = {
         code:'',
-        isPuzzleCode:true
+        isPuzzleCode:true,
+        questionType:''
     };
     this.onEndTest = this.onEndTest.bind(this);
+    this.checkProgress = this.checkProgress.bind(this);
     this.toggleQuestionType = this.toggleQuestionType.bind(this);
 }
 
-onEndTest(){
-
+componentDidMount(){
+  this.checkProgress();
 }
-toggleQuestionType(value){
-    this.setState({isPuzzleCode: value});
+
+checkProgress(){
+  var teamName=cookie.load('teamName');
+  if(teamName!==null&&teamName!==undefined&&teamName!==""){
+  fetch("http://localhost:8080/codingPlatform/fetchProgress?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"teamName":teamName})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.status === "Success"){
+                this.setState({questionType:result.questionType});
+              }else if(result.status === "Fail"){
+                  alert("Something went wrong");
+              }
+            }
+    )
+  }else{
+    this.props.history.push('/login');
+  }
+}
+
+onEndTest(){
+  alert("End Test Clicked");
+  // fetch("http://localhost:8080/codingPlatform/finalSubmission?key=SHARED_KEY",{
+  //         headers: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json'
+  //         },
+  //         method: "POST",
+  //         body: JSON.stringify({"teamName":teamName})
+  //       })
+  //         .then(res => res.json())
+  //         .then(
+  //           (result) => {
+  //             if(result.status === "Success"){
+  //               this.setState({questionType:result.questionType});
+  //             }else if(result.status === "Fail"){
+  //                 alert("Something went wrong");
+  //             }
+  //           }
+  //   )
 }
 
 render() {
@@ -34,7 +81,7 @@ render() {
             checkpoints={[
             {
             time: 0,
-            callback: () => console.log('Checkpoint A'),
+            callback: () => onEndTest(),
             }
             ]}>
             {() => (
@@ -45,12 +92,12 @@ render() {
             </React.Fragment>
             )}
              </Timer></div>
-            <div className="endTestButton">End Test</div>
+            <div className="endTestButton" onClick={this.onEndTest}>End Test</div>
         </div>
         <div className="challengeBody">
-            {this.state.isPuzzleCode===true?
-            <Puzzle toggleQuestion={this.toggleQuestionType}/>:
-            <Code toggleQuestion={this.toggleQuestionType}/>}
+            {this.state.questionType==="P"?
+            <Puzzle toggleQuestion={this.checkProgress}/>:
+            <Code toggleQuestion={this.checkProgress}/>}
         </div>
     </div>
   );
