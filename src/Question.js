@@ -51,7 +51,8 @@ checkProgress(){
   }
 }
 
-onEndTest(){
+onEndTest(stop, getTime){
+  stop();
   var teamName=cookie.load('teamName');
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
           headers: {
@@ -87,15 +88,16 @@ render() {
             callback: () => this.onEndTest(getTime()),
             }
             ]}>
-            {() => (
+            {({stop, getTime }) => (
             <React.Fragment>
             <Timer.Hours /> : 
             <Timer.Minutes /> : 
             <Timer.Seconds />
+            <div className="endTestButton" onClick={this.onEndTest(stop,getTime())}>End Test</div>
             </React.Fragment>
             )}
              </Timer></div>
-            <div className="endTestButton" onClick={this.onEndTest}>End Test</div>
+            
         </div>
         <div className="challengeBody">
             {this.state.questionType==="P"?
