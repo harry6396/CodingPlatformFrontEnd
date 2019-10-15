@@ -53,26 +53,26 @@ checkProgress(){
 
 onEndTest(stop, getTime){
   stop();
-  console.log(getTime);
-  var teamName=cookie.load('teamName');
-  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: "POST",
-          body: JSON.stringify({"teamName":teamName,"completionTime":"0"})
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-              if(result.status === "Success"){
-                this.setState({questionType:result.questionType});
-              }else if(result.status === "Fail"){
-                  alert("Something went wrong");
-              }
-            }
-    )
+  console.log(getTime());
+  // var teamName=cookie.load('teamName');
+  // fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
+  //         headers: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json'
+  //         },
+  //         method: "POST",
+  //         body: JSON.stringify({"teamName":teamName,"completionTime":"0"})
+  //       })
+  //         .then(res => res.json())
+  //         .then(
+  //           (result) => {
+  //             if(result.status === "Success"){
+  //               this.setState({questionType:result.questionType});
+  //             }else if(result.status === "Fail"){
+  //                 alert("Something went wrong");
+  //             }
+  //           }
+  //   )
 }
 
 render() {
@@ -81,7 +81,7 @@ render() {
         <div className="challengeHeader">
             <div className="challengeHeaderMessage">Break the ENGIMA</div>
             <div className="challengeTimer"><Timer
-            initialTime={60*60*60*60}
+            initialTime={60*60*60}
             direction="backward"
             checkpoints={[
             {
