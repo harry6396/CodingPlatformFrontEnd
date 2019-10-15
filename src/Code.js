@@ -59,7 +59,7 @@ compileCode(){
     hackerEarth.compile(config)
                         .then(result => {
                           console.log(result);
-                          submitCode();
+                          this.submitCode();
                         })
                         .catch(err => {
                             console.log(err);
@@ -68,7 +68,7 @@ compileCode(){
 submitCode(){
   hackerEarth.run(config)
                     .then(result => {
-                      submitScore();
+                      this.submitScore();
                     })
                     .catch(err => {
                       alert(err);
