@@ -61,14 +61,38 @@ updateCode(event){
   this.setState({codeInput:event.target.value});
 }
 compileCode(){
-    hackerEarth.compile(config)
-                        .then(result => {
-                          console.log(result);
-                          this.submitCode();
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
+    // hackerEarth.compile(config)
+    //                     .then(result => {
+    //                       console.log(result);
+    //                       this.submitCode();
+    //                     })
+    //                     .catch(err => {
+    //                         console.log(err);
+    //                     });
+fetch("https://api.hackerearth.com/v3/code/compile/",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"client_secret": "f3c1455800df92db6737d087ac0c93424bbe1e40",
+            "async": 1,
+            "source": "print(\"Hello\")",
+            "lang": "PYTHON",
+            "input": "",
+            "time_limit": 1,
+            "memory_limit": 323244})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.status === "Success"){
+                  this.props.toggleQuestion();
+              }else if(result.status === "Fail"){
+                  alert("Something went wrong");
+              }
+            }
+    )
 }
 submitCode(){
   hackerEarth.run(config)
