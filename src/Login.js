@@ -45,10 +45,10 @@ checkTeam(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                console.log(result);
                 this.saveChallengeData(result.teamName);
               }else if(result.status === "Fail"){
-                  alert("Wrong team name or already completed test");
+                this.setState({toShowLoader:false});
+                  alert("Wrong team name or passcode or already completed the test");
               }
             }
           )

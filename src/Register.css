@@ -19,7 +19,7 @@
     padding-top: 10%;
 }
 .teamNameInput{
-    margin-left: 388px;
+    margin-left: 26%;
     font-size: 24px;
     border: none;
     border-radius: 26px;
@@ -29,7 +29,7 @@
     background-color: aliceblue;
 }
 .teamNameDiv{
-    margin-top: -3%;
+    margin-top: -2.39%;
 }
 .teamName{
     margin-top: 5%;
@@ -45,14 +45,15 @@
     height: 24px;
     width: 120px;
     background: #3578E5;
-    border-radius: 20px;
+    border-radius: 6px;
     color: white;
-    margin-left: 30.4%;
+    margin-left: 26%;
     margin-top: 2%;
-    padding-left: 2%;
+    padding-left: 1%;
     padding-top: 6px;
     padding-bottom: 3px;
     cursor: pointer;
+    font-size: 18px;
 }
 .registerForm{
 
@@ -128,16 +129,18 @@
     
 }
 .registerButton{
-    height: 30px;
-    width: 6%;
+    height: 24px;
+    width: 74px;
     background: #3578E5;
-    border-radius: 20px;
+    border-radius: 6px;
     color: white;
-    margin-left: 30.4%;
+    margin-left: 26%;
     margin-top: 2%;
-    padding-left: 2%;
-    padding-top: 1%;
+    padding-left: 1%;
+    padding-top: 6px;
+    padding-bottom: 3px;
     cursor: pointer;
+    font-size: 18px;
     margin-bottom: 5%;
 }
 .teamAvailableMessage{

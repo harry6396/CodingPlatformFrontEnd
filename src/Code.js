@@ -23,7 +23,7 @@ class Code extends React.Component {
       codeStatement:'',
       codeDescription:'',
       codeInputFormat:'Input Format',
-      codeOutputFormat:'Input Format',
+      codeOutputFormat:'Output Format',
       codeTestCases:'',
       toShowLoader:false,
       questionType:'',
