@@ -33,7 +33,7 @@ class Code extends React.Component {
 componentDidMount(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ submitCode(){
 submitScore(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
