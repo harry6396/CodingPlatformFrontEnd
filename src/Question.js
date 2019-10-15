@@ -47,6 +47,7 @@ checkProgress(){
 }
 
 onEndTest(){
+  var teamName=cookie.load('teamName');
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
