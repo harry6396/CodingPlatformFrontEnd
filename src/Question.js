@@ -51,9 +51,8 @@ checkProgress(){
   }
 }
 
-onEndTest(stop, getTime){
+onEndTest(stop){
   stop();
-  console.log(getTime);
   var teamName=cookie.load('teamName');
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
           headers: {
@@ -94,7 +93,8 @@ render() {
             <Timer.Hours /> : 
             <Timer.Minutes /> : 
             <Timer.Seconds />
-            <div className="endTestButton" onClick={this.onEndTest(stop,{getTime})}>End Test</div>
+            <div>{getTime()}</div>
+            <div className="endTestButton" onClick={this.onEndTest(stop)}>End Test</div>
             </React.Fragment>
             )}
              </Timer></div>
