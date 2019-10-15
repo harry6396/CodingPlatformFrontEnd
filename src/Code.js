@@ -24,11 +24,13 @@ class Code extends React.Component {
       codeDescription:'',
       toShowLoader:false,
       questionType:'',
-      codeOutput:''
+      codeOutput:'',
+      codeInput:''
     };
     this.compileCode = this.compileCode.bind(this);
     this.submitCode = this.submitCode.bind(this);
     this.submitScore = this.submitScore.bind(this);
+    this.updateCode = this.updateCode.bind(this);
 }
 componentDidMount(){
   var teamName=cookie.load('teamName');
@@ -54,6 +56,9 @@ componentDidMount(){
   }else{
     this.props.history.push('/login');
   }
+}
+updateCode(event){
+  this.setState({codeInput:event.target.value});
 }
 compileCode(){
     hackerEarth.compile(config)
@@ -105,7 +110,7 @@ render() {
     <div className="header">
         <div className="codingQuestion">{this.state.codeStatement}</div>
         <div className="codeDescription">{this.state.codeDescription}</div>
-        <div className=""><textarea className="codeInput" type="text" placeholder="Insert your code here"/></div>
+        <div className=""><textarea className="codeInput" type="text" placeholder="Insert your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
         <div className="puzzleAnswerButton" onClick={this.compileCode}>Compile</div>
         <div className="puzzleAnswerButton" onClick={this.submitCode}>Submit</div>
