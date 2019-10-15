@@ -81,7 +81,7 @@ render() {
             checkpoints={[
             {
             time: 0,
-            callback: () => onEndTest(),
+            callback: () => this.onEndTest(),
             }
             ]}>
             {() => (
