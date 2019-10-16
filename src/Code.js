@@ -33,7 +33,7 @@ class Code extends React.Component {
       example:[],
       placeHolder: "Select Language",
       selectedOption:'',
-      oAvailableLanguage:[{value:"C", label:"C"},{value:"C++", label:"C++"},{value:"Py", label:"Python"},{value:"JAVA", label:"JAVA"}]
+      oAvailableLanguage:[{value:"C", label:"C"},{value:"CPP", label:"C++"},{value:"Py", label:"Python"},{value:"JAVA", label:"JAVA"}]
     };
     this.compileCode = this.compileCode.bind(this);
     this.submitCode = this.submitCode.bind(this);
@@ -93,46 +93,31 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
-  hackerEarth.compile(config,function(err,response){
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(response);
-    }
-});
-    // hackerEarth.compile(config)
-    //                     .then(result => {
-    //                       console.log(result);
-    //                       //this.submitCode();
-    //                     })
-    //                     .catch(err => {
-    //                         console.log(err);
-    //                     });
-// fetch("https://api.hackerearth.com/v3/code/compile/",{
-//           headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json',
-//             'Access-Control-Allow-Origin': '*'
-//           },
-//           method: "POST",
-//           body: JSON.stringify({"client_secret": "f3c1455800df92db6737d087ac0c93424bbe1e40",
-//             "async": 1,
-//             "source": "print(\"Hello\")",
-//             "lang": "PYTHON",
-//             "input": "",
-//             "time_limit": 1,
-//             "memory_limit": 323244})
-//         })
-//           .then(res => res.json())
-//           .then(
-//             (result) => {
-//               if(result.status === "Success"){
-//                   this.props.toggleQuestion();
-//               }else if(result.status === "Fail"){
-//                   alert("Something went wrong");
-//               }
-//             }
-//     )
+fetch("https://api.hackerearth.com/v3/code/compile/",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          },
+          method: "POST",
+          body: JSON.stringify({"client_secret": "f3c1455800df92db6737d087ac0c93424bbe1e40",
+            "async": 1,
+            "source": "print(\"Hello\")",
+            "lang": "PYTHON",
+            "input": "",
+            "time_limit": 1,
+            "memory_limit": 323244})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.status === "Success"){
+                  this.props.toggleQuestion();
+              }else if(result.status === "Fail"){
+                  alert("Something went wrong");
+              }
+            }
+    )
 }
 submitCode(){
   hackerEarth.run(config)
@@ -177,12 +162,6 @@ render() {
     <div className="header">
         <div className="codingQuestion">{this.state.codeStatement}</div>
         <div className="codeDescription">{this.state.codeDescription}</div>
-        <Select
-            className="availableLanguage"
-            onChange={this.handleChange}
-            options={this.props.cuisineList}
-            placeholder={this.state.placeHolder}
-        />
         <div className="codeInputType">Constraints{this.state.codeInputFormat.map((i,key) => {
             return <div key={key}>{i}</div>;
         })}</div>
@@ -192,6 +171,12 @@ render() {
         <div className="codeOutputType">Output{this.state.codeOutputFormat.map((i,key) => {
             return <div key={key}>{i}</div>;
         })}</div>
+        <Select
+            className="availableLanguage"
+            onChange={this.handleChange}
+            options={this.state.oAvailableLanguage}
+            placeholder={this.state.placeHolder}
+        />
         <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
         <div className="puzzleAnswerButton" onClick={this.compileCode}>Compile</div>
