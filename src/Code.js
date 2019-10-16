@@ -179,8 +179,8 @@ render() {
         />
         <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
-        <div className="puzzleAnswerButton" onClick={this.compileCode}>Compile</div>
-        <div className="puzzleAnswerButton" onClick={this.submitCode}>Submit</div>
+        <div className="codeAnswerButton" onClick={this.compileCode}>Compile</div>
+        <div className="codeAnswerButton" onClick={this.submitCode}>Submit</div>
         </div>
     </div>
   );
