@@ -7,7 +7,7 @@ var hackerEarth=require('hackerearth-node'); //require the Library
 //Now set your application 
 var hackerEarth=new hackerEarth(
         'c80a8e5ab76c54820f05971d7ed7b8286431087a',  //Your Client Secret Key here this is mandatory
-        1  //mode sync=1 or async(optional)=0 or null async is by default and preferred for nodeJS
+        0  //mode sync=1 or async(optional)=0 or null async is by default and preferred for nodeJS
 );
 var config={};
 config.time_limit=1;  //your time limit in integer
@@ -42,7 +42,7 @@ class Code extends React.Component {
 componentDidMount(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -135,7 +135,7 @@ submitCode(){
 submitScore(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

@@ -22,7 +22,7 @@ inputPuzzle(event){
 componentDidMount(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ onPuzzleAnswerButtonClick(){
   if(this.state.answer===""||this.state.answer===undefined||this.state.answer===null){
     alert("Please fill answer");
   }else{
-  fetch("http://localhost:8080/codingPlatform/fetchQuestion?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'

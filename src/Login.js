@@ -33,7 +33,7 @@ componentDidMount(){
 checkTeam(){
     if(this.state.teamName.length>0&&this.state.passCode.length>0){
         this.setState({toShowLoader:true});
-        fetch("http://localhost:8080/codingPlatform/login?key=SHARED_KEY",{
+        fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/login?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

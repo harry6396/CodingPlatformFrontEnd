@@ -30,7 +30,7 @@ stopTimer(){
 checkProgress(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("http://localhost:8080/codingPlatform/fetchProgress?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchProgress?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ checkProgress(){
 
 onEndTest(){
   var teamName=cookie.load('teamName');
-  fetch("http://localhost:8080/codingPlatform/finalSubmission?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/finalSubmission?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
