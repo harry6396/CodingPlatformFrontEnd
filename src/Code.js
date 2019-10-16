@@ -2,6 +2,7 @@ import React from 'react';
 import './Register.css';
 import Loader from 'react-loader-spinner';
 import cookie from 'react-cookies';
+import Select from 'react-select';
 
 var hackerEarth=require('hackerearth-node'); //require the Library
 //Now set your application 
@@ -89,14 +90,21 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
-    hackerEarth.compile(config)
-                        .then(result => {
-                          console.log(result);
-                          //this.submitCode();
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
+  hackerEarth.compile(config,function(err,response){
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(response);
+    }
+});
+    // hackerEarth.compile(config)
+    //                     .then(result => {
+    //                       console.log(result);
+    //                       //this.submitCode();
+    //                     })
+    //                     .catch(err => {
+    //                         console.log(err);
+    //                     });
 // fetch("https://api.hackerearth.com/v3/code/compile/",{
 //           headers: {
 //             'Accept': 'application/json',
