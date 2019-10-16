@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
 var hackerEarth=require('hackerearth-node'); //require the Library
 //Now set your application 
 var hackerEarth=new hackerEarth(
-        'f3c1455800df92db6737d087ac0c93424bbe1e40',  //Your Client Secret Key here this is mandatory
+        'c80a8e5ab76c54820f05971d7ed7b8286431087a',  //Your Client Secret Key here this is mandatory
         1  //mode sync=1 or async(optional)=0 or null async is by default and preferred for nodeJS
 );
 var config={};
@@ -89,14 +89,14 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
-    // hackerEarth.compile(config)
-    //                     .then(result => {
-    //                       console.log(result);
-    //                       this.submitCode();
-    //                     })
-    //                     .catch(err => {
-    //                         console.log(err);
-    //                     });
+    hackerEarth.compile(config)
+                        .then(result => {
+                          console.log(result);
+                          //this.submitCode();
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
 // fetch("https://api.hackerearth.com/v3/code/compile/",{
 //           headers: {
 //             'Accept': 'application/json',
@@ -124,14 +124,13 @@ compileCode(){
 //     )
 }
 submitCode(){
-  // hackerEarth.run(config)
-  //                   .then(result => {
-  //                     this.submitScore();
-  //                   })
-  //                   .catch(err => {
-  //                     alert(err);
-  //                   });
-  this.submitScore();
+  hackerEarth.run(config)
+                    .then(result => {
+                      //this.submitScore();
+                    })
+                    .catch(err => {
+                      alert(err);
+                    });
 }
 submitScore(){
   var teamName=cookie.load('teamName');
