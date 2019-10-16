@@ -3,6 +3,7 @@ import './Register.css';
 import Loader from 'react-loader-spinner';
 import cookie from 'react-cookies';
 import Select from 'react-select';
+import qs from 'qs';
 
 var hackerEarth=require('hackerearth-node'); //require the Library
 //Now set your application 
@@ -44,6 +45,7 @@ class Code extends React.Component {
     this.splitCodeExample = this.splitCodeExample.bind(this);
 }
 componentDidMount(){
+  this.setState({toShowLoader:true});
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
@@ -61,7 +63,7 @@ componentDidMount(){
                 this.splitCodeInput(result.questionInputFormat);
                 this.splitCodeOutput(result.questionOutputFormat);
                 this.splitCodeExample(result.example);
-                this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription});
+                this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription, toShowLoader:false});
               }else if(result.problemStatement==="4"){
                 alert("Test Completed");
               }
@@ -93,45 +95,44 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
-fetch("https://api.hackerearth.com/v3/code/compile/",{
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          method: "POST",
-          body: JSON.stringify({"client_secret": "f3c1455800df92db6737d087ac0c93424bbe1e40",
-            "async": 1,
-            "source": "print(\"Hello\")",
-            "lang": "PYTHON",
-            "input": "",
-            "time_limit": 1,
-            "memory_limit": 323244})
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-              if(result.status === "Success"){
-                  this.props.toggleQuestion();
-              }else if(result.status === "Fail"){
-                  alert("Something went wrong");
-              }
-            }
-    )
+  fetch("https://ideas2it-hackerearth.p.rapidapi.com/compile/", {
+    "method": "POST",
+    "headers": {
+      "x-rapidapi-host": "ideas2it-hackerearth.p.rapidapi.com",
+      "x-rapidapi-key": "8befd2b7c8msh15a1471ae2f8f39p1bfc20jsn980dfbdc4c7a",
+      "content-type": "application/x-www-form-urlencoded"
+    },
+    "body": {
+      "async": "0",
+      "time_limit": "10",
+      "memory_limit": "262144",
+      "client_secret": "c80a8e5ab76c54820f05971d7ed7b8286431087a",
+      "source": "int main() {   printf(\"Hello world\\n\");   return 0; }",
+      "lang": "C"
+    }
+  })
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 submitCode(){
   hackerEarth.run(config)
                     .then(result => {
+                      console.log(result);
                       //this.submitScore();
                     })
                     .catch(err => {
                       alert(err);
                     });
+  //this.submitScore();
 }
 submitScore(){
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
-  fetch("https://codingplatformbackend.herokuapp.com/fetchQuestion?key=SHARED_KEY",{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -160,6 +161,15 @@ handleChange = (selectedOption) => {
 render() {
   return (
     <div className="header">
+      {this.state.toShowLoader===true?<div className="loadingScreen">
+      <Loader
+         type="Circles"
+         color="#3578E5"
+         height={100}
+         width={100}
+      />
+      </div>:
+      <div>
         <div className="codingQuestion">{this.state.codeStatement}</div>
         <div className="codeDescription">{this.state.codeDescription}</div>
         <div className="codeInputType">Constraints{this.state.codeInputFormat.map((i,key) => {
@@ -168,7 +178,7 @@ render() {
         <div className="codeOutputType">Input{this.state.example.map((i,key) => {
             return <div key={key}>{i}</div>;
         })}</div>
-        <div className="codeOutputType">Output{this.state.codeOutputFormat.map((i,key) => {
+        <div className="codeOutputType">Expected Output{this.state.codeOutputFormat.map((i,key) => {
             return <div key={key}>{i}</div>;
         })}</div>
         <Select
@@ -182,6 +192,8 @@ render() {
         <div className="codeAnswerButton" onClick={this.compileCode}>Compile</div>
         <div className="codeAnswerButton" onClick={this.submitCode}>Submit</div>
         </div>
+        </div>
+      }
     </div>
   );
 }

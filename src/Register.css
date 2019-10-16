@@ -315,10 +315,21 @@
     border-radius: 6px;
     color: white;
     margin-left: 26%;
-    margin-top: 2%;
+    margin-bottom: 2%;
     padding-left: 1%;
     padding-top: 6px;
     padding-bottom: 3px;
     cursor: pointer;
     font-size: 18px;
+}
+
+.loadingScreen{
+    margin-left: 45%;
+    margin-top: 20%;
+}
+
+.puzzleAnswerSubmit{
+    margin-top: 2%;
+    margin-bottom: 4%;
+    margin-left: 45%;
 }

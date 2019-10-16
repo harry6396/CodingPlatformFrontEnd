@@ -61,6 +61,7 @@ checkTeam(){
 
 saveChallengeData(challengeData){
     cookie.save('teamName', challengeData, { path: '/' });
+    cookie.save('challengeTime', "5400", { path: '/' });
     this.setState({toShowLoader:false});
     this.props.history.push('/challenge');
 }

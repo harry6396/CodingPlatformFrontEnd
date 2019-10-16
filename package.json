@@ -6,6 +6,7 @@
     "babel-polyfill": "^6.26.0",
     "cls-bluebird": "^2.1.0",
     "hackerearth-node": "^2.3.9",
+    "qs": "^6.9.0",
     "react": "^16.10.2",
     "react-compound-timer": "^1.1.15",
     "react-cookies": "^0.1.1",
@@ -13,8 +14,8 @@
     "react-loader-spinner": "^3.1.4",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "request-promise": "^4.2.4",
-    "react-select": "^2.4.2"
+    "react-select": "^2.4.2",
+    "request-promise": "^4.2.4"
   },
   "scripts": {
     "start": "react-scripts start",

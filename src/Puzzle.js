@@ -11,7 +11,8 @@ class Puzzle extends React.Component {
       puzzleDescription:'',
       answer:'',
       toShowLoader:false,
-      questionType:''
+      questionType:'',
+      toShowAnswerLoader:false
     };
     this.onPuzzleAnswerButtonClick = this.onPuzzleAnswerButtonClick.bind(this);
     this.inputPuzzle = this.inputPuzzle.bind(this);
@@ -20,6 +21,7 @@ inputPuzzle(event){
   this.setState({answer:event.target.value});
 }
 componentDidMount(){
+  this.setState({toShowLoader:true});
   var teamName=cookie.load('teamName');
   if(teamName!==null&&teamName!==undefined&&teamName!==""){
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/fetchQuestion?key=SHARED_KEY",{
@@ -34,7 +36,7 @@ componentDidMount(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                this.setState({puzzleStatement:result.puzzleStatement,puzzleDescription:result.puzzleDescription,questionType:result.questionType});
+                this.setState({puzzleStatement:result.puzzleStatement,puzzleDescription:result.puzzleDescription,questionType:result.questionType,toShowLoader:false});
               }else if(result.status === "Fail"){
                   alert("Something went wrong");
               }
@@ -61,8 +63,10 @@ onPuzzleAnswerButtonClick(){
     .then(
       (result) => {
         if(result.status === "Success"){
+          this.setState({toShowAnswerLoader:false});
           this.props.toggleQuestion();
         }else if(result.status === "Fail"){
+          this.setState({toShowAnswerLoader:false});
           alert("Answer is wrong");
         }
       }
@@ -73,10 +77,31 @@ onPuzzleAnswerButtonClick(){
 render() {
   return (
     <div className="header">
+      {this.state.toShowLoader===true?<div className="loadingScreen">
+      <Loader
+         type="Circles"
+         color="#3578E5"
+         height={100}
+         width={100}
+      />
+      </div>:
+      <div>
         <div className="puzzleStatement">{this.state.puzzleStatement}</div>
         <div className="puzzleDescription">{this.state.puzzleDescription}</div>
+        <div className="puzzleDescription">Note- Please make sure that answer should not contain any space</div>
         <div className=""><input className="puzzleInput" type="text" placeholder="Answer" onChange={this.inputPuzzle}/></div>
         <div className="puzzleAnswerButton" onClick={this.onPuzzleAnswerButtonClick}>Submit</div>
+        {this.state.toShowAnswerLoader===true?
+        <div className="puzzleAnswerSubmit">
+          <Loader
+          type="Circles"
+          color="#3578E5"
+          height={50}
+          width={50}
+          />
+          </div>
+       :<div></div>}
+      </div>}
     </div>
   );
 }
