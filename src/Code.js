@@ -30,7 +30,10 @@ class Code extends React.Component {
       questionType:'',
       codeOutput:'',
       codeInput:'',
-      example:[]
+      example:[],
+      placeHolder: "Select Language",
+      selectedOption:'',
+      oAvailableLanguage:[{value:"C", label:"C"},{value:"C++", label:"C++"},{value:"Py", label:"Python"},{value:"JAVA", label:"JAVA"}]
     };
     this.compileCode = this.compileCode.bind(this);
     this.submitCode = this.submitCode.bind(this);
@@ -54,12 +57,12 @@ componentDidMount(){
           .then(res => res.json())
           .then(
             (result) => {
-              if(result.status === "Success"&&result.problemStatement!=="7"){
+              if(result.status === "Success"&&result.problemStatement!=="4"){
                 this.splitCodeInput(result.questionInputFormat);
                 this.splitCodeOutput(result.questionOutputFormat);
                 this.splitCodeExample(result.example);
                 this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription});
-              }else if(result.problemStatement==="7"){
+              }else if(result.problemStatement==="4"){
                 alert("Test Completed");
               }
               else if(result.status === "Fail"){
@@ -165,12 +168,21 @@ submitScore(){
     this.props.history.push('/login');
   }
 }
+handleChange = (selectedOption) => {
+  this.setState({ selectedOption: selectedOption });
+}
 
 render() {
   return (
     <div className="header">
         <div className="codingQuestion">{this.state.codeStatement}</div>
         <div className="codeDescription">{this.state.codeDescription}</div>
+        <Select
+            className="availableLanguage"
+            onChange={this.handleChange}
+            options={this.props.cuisineList}
+            placeholder={this.state.placeHolder}
+        />
         <div className="codeInputType">Constraints{this.state.codeInputFormat.map((i,key) => {
             return <div key={key}>{i}</div>;
         })}</div>
