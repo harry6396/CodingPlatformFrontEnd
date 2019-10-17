@@ -118,6 +118,8 @@ onEndTest(){
           .then(
             (result) => {
               if(result.status === "Success"){
+                this.props.history.lengt=-1;
+                cookie.remove('teamName');
                 this.props.history.push('/CompleteTestPage');
               }else if(result.status === "Fail"){
                   alert("Something went wrong");
