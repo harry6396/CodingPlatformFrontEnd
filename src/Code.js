@@ -3,25 +3,16 @@ import './Register.css';
 import Loader from 'react-loader-spinner';
 import cookie from 'react-cookies';
 import Select from 'react-select';
-import qs from 'qs';
-
-var hackerEarth=require('hackerearth-node'); //require the Library
-//Now set your application 
-var hackerEarth=new hackerEarth(
-        'c80a8e5ab76c54820f05971d7ed7b8286431087a',  //Your Client Secret Key here this is mandatory
-        0  //mode sync=1 or async(optional)=0 or null async is by default and preferred for nodeJS
-);
-var config={};
-config.time_limit=1;  //your time limit in integer
-config.memory_limit=323244;  //your memory limit in integer
-config.source='print("Hello")';  //your source code for which you want to use hackerEarth api
-config.input="";  //input against which you have to test your source code
-config.language="Py"; //optional choose any one of them or none
 
 class Code extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      testCase:'',
+      compileOutput:'',
+      compileMessage:'',
+      isCompileTest:false,
+      isRunTest:false,
       codeStatement:'',
       codeDescription:'',
       codeInputFormat:[],
@@ -34,7 +25,9 @@ class Code extends React.Component {
       example:[],
       placeHolder: "Select Language",
       selectedOption:'',
-      oAvailableLanguage:[{value:"C", label:"C"},{value:"CPP", label:"C++"},{value:"Py", label:"Python"},{value:"JAVA", label:"JAVA"}]
+      sTestCase:[],
+      expectedOp:[],
+      oAvailableLanguage:[{value:"JAVA", label:"JAVA"}]
     };
     this.compileCode = this.compileCode.bind(this);
     this.submitCode = this.submitCode.bind(this);
@@ -59,13 +52,11 @@ componentDidMount(){
           .then(res => res.json())
           .then(
             (result) => {
-              if(result.status === "Success"&&result.problemStatement!=="4"){
+              if(result.status === "Success"){
                 this.splitCodeInput(result.questionInputFormat);
                 this.splitCodeOutput(result.questionOutputFormat);
                 this.splitCodeExample(result.example);
-                this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription, toShowLoader:false});
-              }else if(result.problemStatement==="4"){
-                alert("Test Completed");
+                this.setState({codeStatement:result.problemStatement,codeDescription:result.problemDescription, toShowLoader:false, testCase:result.testCase, expectedOp:result.expectedOp});
               }
               else if(result.status === "Fail"){
                   alert("Something went wrong");
@@ -95,23 +86,68 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
+  this.setState({isCompileTest:true,compileOutput:'', compileMessage:''});
+  var teamName=cookie.load('teamName');
+  if(this.state.selectedOption === '' || this.state.selectedOption === undefined || this.state.selectedOption === null){
+      alert("Please select a language");
+  }else if(this.state.codeInput === '' || this.state.codeInput === undefined || this.state.codeInput === null){
+      alert("Please write code to compile");
+  }
+  else{
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
           method: "POST",
-          body: JSON.stringify({"teamName":""})
+          body: JSON.stringify({"teamName":teamName,"sourceCode":this.state.codeInput,"lang":this.state.selectedOption,"type":"compile"})
         })
           .then(res => res.json())
           .then(
             (result) => {
-                console.log(result);
+              if(result.result.compile_status==="OK"){
+                this.setState({isCompileTest:false,compileOutput:'Compiled Successfully', compileMessage:''});
+              }else{
+                this.setState({isCompileTest:false,compileOutput:'Failed', compileMessage:result.result.compile_status});
+                console.log(result.result.compile_status);
+              }
             }
     )
+  }
 }
 submitCode(){
-  this.submitScore();
+  this.setState({isRunTest:true,isCompileTest:true,compileOutput:'', compileMessage:''});
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"sourceCode":this.state.codeInput,"lang":this.state.selectedOption,"type":"run", "testCase":this.state.testCase})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.result.run_status.output === undefined){
+                alert("Compilation Error");
+              }
+              else if(result.result.run_status.output!==null){
+                console.log(result.result.run_status.output);
+                var opString = result.result.run_status.output.replace(/(\r\n|\n|\r)/gm, "");
+                if(opString === this.state.expectedOp){
+                alert("Passed all test cases");
+                this.submitScore();
+                }else{
+                  alert("Please try again. Not all test case passed");
+                }
+              }else if(result.result.run_status.output=== null){
+                alert("First compile and then submit");
+              }else{
+                alert("Please try again. Not all test case passed");
+              }
+              this.setState({isRunTest:false});
+            }
+    )
 }
 submitScore(){
   var teamName=cookie.load('teamName');
@@ -129,8 +165,10 @@ submitScore(){
             (result) => {
               if(result.status === "Success"){
                   this.props.toggleQuestion();
+                  this.setState({isRunTest:false});
               }else if(result.status === "Fail"){
                   alert("Something went wrong");
+                  this.setState({isRunTest:false});
               }
             }
     )
@@ -139,7 +177,7 @@ submitScore(){
   }
 }
 handleChange = (selectedOption) => {
-  this.setState({ selectedOption: selectedOption });
+  this.setState({ selectedOption: selectedOption.value });
 }
 
 render() {
@@ -165,6 +203,7 @@ render() {
         <div className="codeOutputType">Expected Output{this.state.codeOutputFormat.map((i,key) => {
             return <div key={key}>{i}</div>;
         })}</div>
+        <div className="codeOutputType">Please note:- Use Test as class name for JAVA</div>
         <Select
             className="availableLanguage"
             onChange={this.handleChange}
@@ -173,9 +212,11 @@ render() {
         />
         <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
-        <div className="codeAnswerButton" onClick={this.compileCode}>Compile</div>
-        <div className="codeAnswerButton" onClick={this.submitCode}>Submit</div>
+        <div className="codeAnswerButton" onClick={this.compileCode}>{this.state.isCompileTest?<Loader type="Circles" color="#ffffff" height={20} width={20}/>:<div>Compile</div>}</div>
+        <div className="codeAnswerButton" onClick={this.submitCode}>{this.state.isRunTest === true?<Loader type="Circles" color="#ffffff" height={20} width={20}/>:<div>Submit</div>}</div>
         </div>
+        <div className = "compileOutput">{this.state.compileOutput}</div>
+        <div className = "compileMessage">{this.state.compileMessage}</div>
         </div>
       }
     </div>

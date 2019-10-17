@@ -12,7 +12,8 @@ class Puzzle extends React.Component {
       answer:'',
       toShowLoader:false,
       questionType:'',
-      toShowAnswerLoader:false
+      toShowAnswerLoader:false,
+      toPuzzleLoader:false
     };
     this.onPuzzleAnswerButtonClick = this.onPuzzleAnswerButtonClick.bind(this);
     this.inputPuzzle = this.inputPuzzle.bind(this);
@@ -48,6 +49,7 @@ componentDidMount(){
 }
 onPuzzleAnswerButtonClick(){
   var teamName=cookie.load('teamName');
+  this.setState({toShowAnswerLoader:true});
   if(this.state.answer===""||this.state.answer===undefined||this.state.answer===null){
     alert("Please fill answer");
   }else{
@@ -63,10 +65,10 @@ onPuzzleAnswerButtonClick(){
     .then(
       (result) => {
         if(result.status === "Success"){
-          this.setState({toShowAnswerLoader:false});
+          this.setState({toShowAnswerLoader:false,toPuzzleLoader:false});
           this.props.toggleQuestion();
         }else if(result.status === "Fail"){
-          this.setState({toShowAnswerLoader:false});
+          this.setState({toShowAnswerLoader:false,toPuzzleLoader:false});
           alert("Answer is wrong");
         }
       }
