@@ -95,6 +95,20 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"teamName":teamName})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+                console.log(result);
+            }
+    )
 }
 submitCode(){
   this.submitScore();
