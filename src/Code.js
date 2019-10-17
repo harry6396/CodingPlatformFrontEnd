@@ -101,7 +101,7 @@ compileCode(){
             'Content-Type': 'application/json'
           },
           method: "POST",
-          body: JSON.stringify({"teamName":teamName})
+          body: JSON.stringify({"teamName":""})
         })
           .then(res => res.json())
           .then(
