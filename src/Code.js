@@ -95,39 +95,9 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
-  fetch("https://ideas2it-hackerearth.p.rapidapi.com/compile/", {
-    "method": "POST",
-    "headers": {
-      "x-rapidapi-host": "ideas2it-hackerearth.p.rapidapi.com",
-      "x-rapidapi-key": "8befd2b7c8msh15a1471ae2f8f39p1bfc20jsn980dfbdc4c7a",
-      "content-type": "application/x-www-form-urlencoded"
-    },
-    "body": {
-      "async": "0",
-      "time_limit": "10",
-      "memory_limit": "262144",
-      "client_secret": "c80a8e5ab76c54820f05971d7ed7b8286431087a",
-      "source": "int main() {   printf(\"Hello world\\n\");   return 0; }",
-      "lang": "C"
-    }
-  })
-  .then(response => {
-    console.log(response);
-  })
-  .catch(err => {
-    console.log(err);
-  });
 }
 submitCode(){
-  hackerEarth.run(config)
-                    .then(result => {
-                      console.log(result);
-                      //this.submitScore();
-                    })
-                    .catch(err => {
-                      alert(err);
-                    });
-  //this.submitScore();
+  this.submitScore();
 }
 submitScore(){
   var teamName=cookie.load('teamName');
