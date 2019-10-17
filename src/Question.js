@@ -89,7 +89,7 @@ checkProgress(){
             (result) => {
               if(result.status === "Success"){
                 if(result.questionNumber === "6"){
-                  this.state.onEndTest();
+                  this.onEndTest();
                 }
                 else{
                   this.setState({questionType:result.questionType,questionNumber:result.questionNumber});
