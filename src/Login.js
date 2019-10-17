@@ -39,7 +39,7 @@ checkTeam(){
             'Content-Type': 'application/json'
           },
           method: "POST",
-          body: JSON.stringify({"teamName":this.state.teamName,"passCode":this.state.teamName,"status":null})
+          body: JSON.stringify({"teamName":this.state.teamName,"passCode":this.state.passCode,"status":null})
         })
           .then(res => res.json())
           .then(
