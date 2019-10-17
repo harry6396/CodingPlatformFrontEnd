@@ -144,6 +144,7 @@ checkTeamAvailable(){
             this.setState({toShowTeamMessage:true,isTeamNameAvailable:true,toShowLoader:false, teamAvailableMessage:'Team Name Available'});
             document.getElementById('teamID').readOnly = true;
           }else if(result.status === "Fail"){
+            alert("Team Name Not Available");
             this.setState({toShowTeamMessage:true,toShowLoader:false, teamAvailableMessage:'Team Name Not Available'});
           }
         }
@@ -164,9 +165,7 @@ render() {
         <div className="registerForm">
             <div className="teamName">Enter Team Name</div>
             <div className="teamNameDiv">
-              <input id="teamID" placeholder="Enter team name" type="text" className="teamNameInput" onChange={this.handleTeamChange}/>
-              {this.state.toShowTeamMessage?<div className="teamAvailableMessage">{this.state.teamAvailableMessage}</div>
-              :<div></div>}</div>
+              <input id="teamID" placeholder="Enter team name" type="text" className="teamNameInput" onChange={this.handleTeamChange}/></div>
             {this.state.isTeamNameAvailable === false?<div className="submitDiv"><div className="submitButton" onClick={this.checkTeamAvailable}>Check Validity</div></div>:<div></div>}
         </div>
         {this.state.toShowLoader?<div className="loaderDiv"><Loader
