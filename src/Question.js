@@ -88,9 +88,8 @@ checkProgress(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                if(result.questionNumber === "4"){
-                  this.props.history.length = -1;
-                  this.props.history.push('/CompleteTestPage');
+                if(result.questionNumber === "6"){
+                  this.state.onEndTest();
                 }
                 else{
                   this.setState({questionType:result.questionType,questionNumber:result.questionNumber});
@@ -119,7 +118,7 @@ onEndTest(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                this.setState({questionType:result.questionType});
+                this.props.history.push('/CompleteTestPage');
               }else if(result.status === "Fail"){
                   alert("Something went wrong");
               }
