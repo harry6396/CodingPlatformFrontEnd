@@ -88,7 +88,6 @@ render() {
       <div>
         <div className="puzzleStatement">{this.state.puzzleStatement}</div>
         <div className="puzzleDescription">{this.state.puzzleDescription}</div>
-        <div className="puzzleDescription">Note- Please make sure that answer should not contain any space</div>
         <div className=""><input className="puzzleInput" type="text" placeholder="Answer" onChange={this.inputPuzzle}/></div>
         <div className="puzzleAnswerButton" onClick={this.onPuzzleAnswerButtonClick}>Submit</div>
         {this.state.toShowAnswerLoader===true?
