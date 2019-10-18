@@ -114,6 +114,7 @@ compileCode(){
   //           }
   //   )
   // }
+  this.setState({isCompileTest:false,compileOutput:'Compiled Successfully', compileMessage:''});
 }
 submitCode(){
   // this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
@@ -148,6 +149,7 @@ submitCode(){
   //             this.setState({isRunTest:false});
   //           }
   //   )
+  this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
   this.submitScore();
 }
 submitScore(){
