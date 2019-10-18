@@ -96,7 +96,6 @@ handleEmailIDChange4(event){
 }
 
 registerTeam(){
-  if(this.state.candidatePhoneNumber1.length===10&&this.state.candidatePhoneNumber2.length===10&&this.state.candidatePhoneNumber3.length===10&&this.state.candidatePhoneNumber4.length===10){
   this.setState({toShowLoader:true,toShowBlurBackGround:true});
     fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/register?key=SHARED_KEY",{
       headers: {
@@ -121,9 +120,6 @@ registerTeam(){
           }
         }
       )
-  }else{
-    alert("Please check all the Phone Numbers once again");
-  }
 }
 
 checkTeamAvailable(){
