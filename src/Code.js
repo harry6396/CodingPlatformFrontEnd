@@ -116,7 +116,7 @@ compileCode(){
   }
 }
 submitCode(){
-  this.setState({isRunTest:true,isCompileTest:true,compileOutput:'', compileMessage:''});
+  this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
           headers: {
             'Accept': 'application/json',
@@ -210,7 +210,7 @@ render() {
             options={this.state.oAvailableLanguage}
             placeholder={this.state.placeHolder}
         />
-        <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode}/></div>
+        <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode} onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false"/></div>
         <div className="buttonHolder">
         <div className="codeAnswerButton" onClick={this.compileCode}>{this.state.isCompileTest?<Loader type="Circles" color="#ffffff" height={20} width={20}/>:<div>Compile</div>}</div>
         <div className="codeAnswerButton" onClick={this.submitCode}>{this.state.isRunTest === true?<Loader type="Circles" color="#ffffff" height={20} width={20}/>:<div>Submit</div>}</div>
