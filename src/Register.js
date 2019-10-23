@@ -154,7 +154,7 @@ render() {
   return (
     <div className="header">
         <div className="headerBackground">
-        <div className="heading">Break the ENGIMA</div>
+        <div className="heading">Break the ENIGMA</div>
         <div className="quote">“Those who can imagine anything, can create the impossible.”
             ― Alan Turing</div>
         </div>
