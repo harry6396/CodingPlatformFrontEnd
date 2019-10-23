@@ -86,69 +86,69 @@ splitCodeExample(questionInputFormat){
   this.setState({example:output});
 }
 compileCode(){
-  // this.setState({isCompileTest:true,compileOutput:'', compileMessage:''});
-  // var teamName=cookie.load('teamName');
-  // if(this.state.selectedOption === '' || this.state.selectedOption === undefined || this.state.selectedOption === null){
-  //     alert("Please select a language");
-  // }else if(this.state.codeInput === '' || this.state.codeInput === undefined || this.state.codeInput === null){
-  //     alert("Please write code to compile");
-  // }
-  // else{
-  // fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         method: "POST",
-  //         body: JSON.stringify({"teamName":teamName,"sourceCode":this.state.codeInput,"lang":this.state.selectedOption,"type":"compile"})
-  //       })
-  //         .then(res => res.json())
-  //         .then(
-  //           (result) => {
-  //             if(result.result.compile_status==="OK"){
-  //               this.setState({isCompileTest:false,compileOutput:'Compiled Successfully', compileMessage:''});
-  //             }else{
-  //               this.setState({isCompileTest:false,compileOutput:'Failed', compileMessage:result.result.compile_status});
-  //               console.log(result.result.compile_status);
-  //             }
-  //           }
-  //   )
-  // }
+  this.setState({isCompileTest:true,compileOutput:'', compileMessage:''});
+  var teamName=cookie.load('teamName');
+  if(this.state.selectedOption === '' || this.state.selectedOption === undefined || this.state.selectedOption === null){
+      alert("Please select a language");
+  }else if(this.state.codeInput === '' || this.state.codeInput === undefined || this.state.codeInput === null){
+      alert("Please write code to compile");
+  }
+  else{
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"teamName":teamName,"sourceCode":this.state.codeInput,"lang":this.state.selectedOption,"type":"compile"})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.result.compile_status==="OK"){
+                this.setState({isCompileTest:false,compileOutput:'Compiled Successfully', compileMessage:''});
+              }else{
+                this.setState({isCompileTest:false,compileOutput:'Failed', compileMessage:result.result.compile_status});
+                console.log(result.result.compile_status);
+              }
+            }
+    )
+  }
   this.setState({isCompileTest:false,compileOutput:'Compiled Successfully', compileMessage:''});
 }
 submitCode(){
-  // this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
-  // fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         method: "POST",
-  //         body: JSON.stringify({"sourceCode":this.state.codeInput,"lang":this.state.selectedOption,"type":"run", "testCase":this.state.testCase})
-  //       })
-  //         .then(res => res.json())
-  //         .then(
-  //           (result) => {
-  //             if(result.result.run_status.output === undefined){
-  //               alert("Compilation Error");
-  //             }
-  //             else if(result.result.run_status.output!==null){
-  //               console.log(result.result.run_status.output);
-  //               var opString = result.result.run_status.output.replace(/(\r\n|\n|\r)/gm, "");
-  //               if(opString === this.state.expectedOp){
-  //               alert("Passed all test cases");
-  //               this.submitScore();
-  //               }else{
-  //                 alert("Please try again. Not all test case passed");
-  //               }
-  //             }else if(result.result.run_status.output=== null){
-  //               alert("First compile and then submit");
-  //             }else{
-  //               alert("Please try again. Not all test case passed");
-  //             }
-  //             this.setState({isRunTest:false});
-  //           }
-  //   )
+  this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
+  fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/runAPI?key=SHARED_KEY",{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({"sourceCode":this.state.codeInput,"lang":this.state.selectedOption,"type":"run", "testCase":this.state.testCase})
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result.result.run_status.output === undefined){
+                alert("Compilation Error");
+              }
+              else if(result.result.run_status.output!==null){
+                console.log(result.result.run_status.output);
+                var opString = result.result.run_status.output.replace(/(\r\n|\n|\r)/gm, "");
+                if(opString === this.state.expectedOp){
+                alert("Passed all test cases");
+                this.submitScore();
+                }else{
+                  alert("Please try again. Not all test case passed");
+                }
+              }else if(result.result.run_status.output=== null){
+                alert("First compile and then submit");
+              }else{
+                alert("Please try again. Not all test case passed");
+              }
+              this.setState({isRunTest:false});
+            }
+    )
   this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
   this.submitScore();
 }
