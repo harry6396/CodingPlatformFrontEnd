@@ -147,11 +147,9 @@ submitCode(){
               }else{
                 alert("Please try again. Not all test case passed");
               }
-              this.setState({isRunTest:false});
+              this.setState({isRunTest:false, compileOutput:'', compileMessage:'',isCompileTest:false});
             }
     )
-  this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
-  this.submitScore();
 }
 submitScore(){
   var teamName=cookie.load('teamName');
