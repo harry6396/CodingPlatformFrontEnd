@@ -65,15 +65,14 @@ onPuzzleAnswerButtonClick(){
     .then(
       (result) => {
         if(result.status === "Success"){
-          this.setState({toShowAnswerLoader:false,toPuzzleLoader:false});
           this.props.toggleQuestion();
         }else if(result.status === "Fail"){
-          this.setState({toShowAnswerLoader:false,toPuzzleLoader:false});
           alert("Answer is wrong");
         }
       }
 )
   }
+  this.setState({toShowAnswerLoader:false,toPuzzleLoader:false});
 }
 
 render() {

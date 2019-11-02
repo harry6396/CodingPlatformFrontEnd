@@ -90,8 +90,10 @@ compileCode(){
   var teamName=cookie.load('teamName');
   if(this.state.selectedOption === '' || this.state.selectedOption === undefined || this.state.selectedOption === null){
       alert("Please select a language");
+      this.setState({isCompileTest:false,compileOutput:'', compileMessage:''});
   }else if(this.state.codeInput === '' || this.state.codeInput === undefined || this.state.codeInput === null){
       alert("Please write code to compile");
+      this.setState({isCompileTest:false,compileOutput:'', compileMessage:''});
   }
   else{
   fetch("https://codingplatformbackend.herokuapp.com/codingPlatform/compileAPI?key=SHARED_KEY",{
@@ -114,7 +116,6 @@ compileCode(){
             }
     )
   }
-  this.setState({isCompileTest:false,compileOutput:'Compiled Successfully', compileMessage:''});
 }
 submitCode(){
   this.setState({isRunTest:true,compileOutput:'', compileMessage:'',isCompileTest:false});
@@ -213,7 +214,7 @@ render() {
             options={this.state.oAvailableLanguage}
             placeholder={this.state.placeHolder}
         />
-        <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode} onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false"/></div>
+        <div className=""><textarea className="codeInput" type="text" placeholder="Type your code here" onChange={this.updateCode}/></div>
         <div className="buttonHolder">
         <div className="codeAnswerButton" onClick={this.compileCode}>{this.state.isCompileTest?<Loader type="Circles" color="#ffffff" height={20} width={20}/>:<div>Compile</div>}</div>
         <div className="codeAnswerButton" onClick={this.submitCode}>{this.state.isRunTest === true?<Loader type="Circles" color="#ffffff" height={20} width={20}/>:<div>Submit</div>}</div>
