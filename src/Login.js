@@ -45,7 +45,7 @@ checkTeam(){
           .then(
             (result) => {
               if(result.status === "Success"){
-                this.saveChallengeData(result.teamName);
+                this.saveChallengeData(result.teamName, result.initialTime);
               }else if(result.status === "Fail"){
                 this.setState({toShowLoader:false});
                   alert("Wrong team name or passcode or already completed the test");
@@ -59,9 +59,9 @@ checkTeam(){
       }
 }
 
-saveChallengeData(challengeData){
+saveChallengeData(challengeData, initialTime){
     cookie.save('teamName', challengeData, { path: '/' });
-    cookie.save('challengeTime', "1200", { path: '/' });
+    cookie.save('challengeTime', initialTime, { path: '/' });
     this.setState({toShowLoader:false});
     this.props.history.push('/challenge');
 }
